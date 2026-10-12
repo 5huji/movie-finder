@@ -733,6 +733,12 @@
             }
 
             const movies = await fetchMovies(endpoint);
+            // 如果是剧集分类，给每个结果添加 media_type
+            if (tab === 'tv_series') {
+                movies.forEach(m => m.media_type = 'tv');
+            } else {
+                movies.forEach(m => m.media_type = 'movie');
+            }
             displayMovies(movies);
         }
 
