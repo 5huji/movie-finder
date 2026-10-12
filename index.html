@@ -727,7 +727,7 @@
             } else if (tab === 'top_rated') {
                 endpoint = '/movie/top_rated?language=zh-CN&page=1';
             } else if (tab === 'tv_series') {
-                endpoint = '/discover/tv?with_original_language=en&language=zh-CN&page=1&sort_by=vote_average.desc&vote_count.gte=100';
+                endpoint = '/discover/tv?with_original_language=en&language=zh-CN&page=1&sort_by=vote_average.desc&vote_count.gte=500&with_type=0|1|2';
             } else if (genreMap[tab]) {
                 endpoint = `/discover/movie?with_genres=${genreMap[tab]}&language=zh-CN&page=1&sort_by=vote_average.desc&vote_count.gte=100`;
             }
