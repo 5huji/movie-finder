@@ -612,9 +612,8 @@
     <script>
         let TMDB_KEY = localStorage.getItem('tmdb_key') || '';
         let OMDB_KEY = localStorage.getItem('omdb_key') || '';
-        const TMDB_BASE = 'https://tmdb-proxy.caerihupeng2024.workers.dev';
+        const TMDB_BASE = 'https://api.themoviedb.org/3';
         const TMDB_IMG = 'https://image.tmdb.org/t/p/w500';
-        const TMDB_API_KEY = 'af41952aa1ec31eea3afb84d2749d617';
 
         const genreMap = {
             'action': 28,
@@ -666,7 +665,7 @@
         // 电影数据获取
         async function fetchMovies(endpoint) {
             try {
-                const response = await fetch(`${TMDB_BASE}${endpoint}?api_key=${TMDB_API_KEY}&language=zh-CN`);
+                const response = await fetch(`${TMDB_BASE}${endpoint}&api_key=${TMDB_KEY}`);
                 const data = await response.json();
                 return data.results || [];
             } catch (error) {
@@ -774,7 +773,7 @@
             modalContent.innerHTML = '<div class="loading"><div class="spinner"></div><p>加载中...</p></div>';
 
             try {
-                const tmdbResponse = await fetch(`${TMDB_BASE}/3/${type}/${id}?api_key=${TMDB_API_KEY}&language=zh-CN`);
+                const tmdbResponse = await fetch(`${TMDB_BASE}/${type}/${id}?api_key=${TMDB_KEY}&language=zh-CN`);
                 const tmdbData = await tmdbResponse.json();
 
                 const title = tmdbData.title || tmdbData.name;
