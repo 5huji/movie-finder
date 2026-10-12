@@ -833,7 +833,7 @@
                                 <span>${runtime}</span>
                             </div>
                             <div class="modal-ratings">
-                                <span class="rating-badge high">TMDb: ${tmdbData.vote_average?.toFixed(1) || 'N/A'}</span>
+                                <span class="rating-badge high">TMDb: ${tmdbData.vote_average?.toFixed(1) || 'N/A'} (${tmdbData.vote_count?.toLocaleString() || 0}人)</span>
                                 ${OMDB_KEY ? `<span class="rating-badge high">IMDb: ${omdbRating}</span>` : ''}
                                 ${OMDB_KEY ? `<span class="rating-badge medium">🍅 ${rtRating}</span>` : ''}
                             </div>
