@@ -828,6 +828,40 @@
                 const runtime = tmdbData.runtime ? `${tmdbData.runtime}分钟` : tmdbData.number_of_seasons ? `${tmdbData.number_of_seasons}季` : '未知';
                 const genres = tmdbData.genres?.map(g => g.name).join('、') || '未分类';
 
+                // 获取用户评论
+                let reviewsHTML = '';
+                try {
+                    const reviewsResponse = await fetch(`${TMDB_BASE}/${type}/${id}/reviews?api_key=${TMDB_KEY}&language=en-US&page=1`);
+                    const reviewsData = await reviewsResponse.json();
+
+                    if (reviewsData.results && reviewsData.results.length > 0) {
+                        reviewsHTML = `
+                            <div class="detail-section">
+                                <h3>用户评价</h3>
+                                ${reviewsData.results.slice(0, 3).map(review => {
+                                    const author = review.author;
+                                    const rating = review.author_details?.rating ? `⭐ ${review.author_details.rating}/10` : '';
+                                    const content = review.content.length > 300 ? review.content.substring(0, 300) + '...' : review.content;
+                                    const date = new Date(review.created_at).toLocaleDateString('zh-CN');
+
+                                    return `
+                                        <div style="margin-bottom: 20px; padding: 15px; background: #1a1f2e; border-radius: 8px;">
+                                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                                <strong style="color: #60a5fa;">${author}</strong>
+                                                <span style="color: #fbbf24; font-size: 14px;">${rating}</span>
+                                            </div>
+                                            <div style="color: #9ca3af; font-size: 12px; margin-bottom: 8px;">${date}</div>
+                                            <p style="color: #d1d5db; line-height: 1.6; margin: 0;">${content}</p>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        `;
+                    }
+                } catch (e) {
+                    console.error('获取评论失败:', e);
+                }
+
                 modalContent.innerHTML = `
                     <div class="modal-header">
                         <img src="${poster}" alt="${title}" class="modal-poster">
@@ -854,6 +888,7 @@
                             <h3>剧情简介</h3>
                             <p>${tmdbData.overview || '暂无简介'}</p>
                         </div>
+                        ${reviewsHTML}
                     </div>
                 `;
             } catch (error) {
